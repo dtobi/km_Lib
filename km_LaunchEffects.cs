@@ -52,8 +52,6 @@ namespace km_Lib
             }
         }
 
-
-        //[KSPEvent(guiName = "Reset", guiActive = true)]
         public void setEffect (bool state) {   
             isActive = state;
             var launchEffects = this.part.GetComponentsInChildren <KSPParticleEmitter> ();
