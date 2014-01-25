@@ -33,6 +33,8 @@ namespace km_Lib
         [KSPField (isPersistant = false)]
         public string effectName = "PreLaunchEffect";
 
+        [KSPField (isPersistant = false)]
+        public string effectLightName = "PreLaunchEffectLight";
 
         [KSPField(isPersistant = true, guiActive = false, guiActiveEditor = false, guiName = "Launch Effects"),
             UI_Toggle(disabledText = "Disabled", enabledText = "Enabled")]
@@ -52,17 +54,31 @@ namespace km_Lib
             }
         }
 
+        public override string GetInfo ()
+        {
+            return "KM Launch Effect by dtobi";
+        }
+
         public void setEffect (bool state) {   
             isActive = state;
             var launchEffects = this.part.GetComponentsInChildren <KSPParticleEmitter> ();
             foreach (KSPParticleEmitter launchEffect in launchEffects) {
-                if (launchEffect != null){
+                if (launchEffect != null) {
                     print ("Found Effect: " + launchEffect.name);
                     if (launchEffect.name == effectName) {
                         launchEffect.emit = state;
                     }
                 }
             }
+            var launchEffectsLights = this.part.GetComponentsInChildren <Light> ();
+            foreach (Light launchEffectLight in launchEffectsLights) {
+                if (launchEffectLight != null) {
+                    print ("Found Light: " + launchEffectLight.name);
+                    if (launchEffectLight.name == effectLightName) {
+                        launchEffectLight.intensity = (state?1:0);
+                    }
+                }
+            }      
         }
     }
 }
