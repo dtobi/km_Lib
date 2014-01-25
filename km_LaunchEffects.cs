@@ -40,7 +40,7 @@ namespace km_Lib
 
         public override void OnStart(StartState state)
         {
-            if (state != StartState.Editor && vessel.situation == Vessel.Situations.PRELAUNCH) {
+            if (isActive && state != StartState.Editor && vessel.situation == Vessel.Situations.PRELAUNCH) {
                 setEffect (true);
             }
         }
