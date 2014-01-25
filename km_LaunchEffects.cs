@@ -40,6 +40,17 @@ namespace km_Lib
             UI_Toggle(disabledText = "Disabled", enabledText = "Enabled")]
         public bool isActive = true;
 
+        [KSPEvent(guiName = "Toggle", guiActive = true)]
+        public void toggle (){
+            setEffect (!isActive);
+        }
+
+        [KSPAction("Toggle")]
+        public void toggleAG (){
+            setEffect (!isActive);
+        }
+
+
         public override void OnStart(StartState state)
         {
             if (isActive && state != StartState.Editor && vessel.situation == Vessel.Situations.PRELAUNCH) {
