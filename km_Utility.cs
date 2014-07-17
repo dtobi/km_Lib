@@ -181,18 +181,18 @@ namespace KM_Lib
 		public static void playAnimation(Part p, string animationName, bool forward, bool play, float speed)
 		{
 			Animation anim;
-			anim = p.FindModelAnimators (animationName).FirstOrDefault ();
+            anim = p.FindModelAnimators (animationName).FirstOrDefault ();
 			if (anim != null) {
 
 
 				if (forward) {
 					anim [animationName].speed = 1f*speed;
-					PartModule.print ("NTime forward: " + anim [animationName].normalizedTime);
+                    //PartModule.print ("NTime forward: " + anim [animationName].normalizedTime);
 					if(!play || !anim.isPlaying) anim [animationName].normalizedTime = (play?0f:1f);
 					anim.Blend (animationName, 2f);
 				} else {
 					anim[animationName].speed = -1f*speed;
-					PartModule.print ("NTime backward: " + anim [animationName].normalizedTime);
+                    //PartModule.print ("NTime backward: " + anim [animationName].normalizedTime);
 					if(!play || !anim.isPlaying) anim [animationName].normalizedTime = (play?1f:0f);
 					anim.Blend (animationName, 2f);
 				}

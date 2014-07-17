@@ -169,9 +169,9 @@ namespace km_Lib
                 this.Fields["size"].guiActiveEditor         = false;
                 this.Fields["rndVelocity"].guiActiveEditor  = false;
                 this.Fields["softDecrease"].guiActiveEditor  = false;
-
+                if(Events ["toggle"] != null)            Events ["toggle"].guiActiveEditor          = false;
             }
-            print ("DBG: OnEditorAttach");
+            //print ("DBG: OnEditorAttach");
             if (state == StartState.Editor)
             {
                 print ("Placement is " + editorPlacementOptionsActive);
@@ -187,14 +187,14 @@ namespace km_Lib
             var launchEffects = this.part.GetComponentsInChildren <KSPParticleEmitter> ();
             foreach (KSPParticleEmitter launchEffect in launchEffects) {
                 if (launchEffect != null) {
-                    print ("DBG Found Effect: " + launchEffect.name);
+                    //print ("DBG Found Effect: " + launchEffect.name);
                     if (launchEffect.name == effectName) {
                         effectsList.Add (launchEffect.GetInstanceID(), launchEffect);
                         if (transformName == "" || transformName == effectName) {
-                            print ("DBG: LP");
+                            //print ("DBG: LP");
                             locationList.Add (launchEffect.GetInstanceID(), launchEffect.transform.localPosition);
                         } else {
-                            print ("DBG: MB");
+                            //print ("DBG: MB");
                             var partTransforms = this.part.GetComponentsInChildren <MonoBehaviour> ();
                             foreach (MonoBehaviour partTransform in partTransforms) {
                                 if (transformName == partTransform.name) {
@@ -205,18 +205,18 @@ namespace km_Lib
                     }
                 }
             }
-            print ("DBG: BeforeLights");
+            //print ("DBG: BeforeLights");
             var launchEffectsLights = this.part.GetComponentsInChildren <Light> ();
             foreach (Light launchEffectLight in launchEffectsLights) {
                 if (launchEffectLight != null) {
-                    print ("Found Light: " + launchEffectLight.name);
+                    // print ("Found Light: " + launchEffectLight.name);
                     if (launchEffectLight.name == effectLightName) {
-                        print ("Added light");
+                        // print ("Added light");
                         lightList.Add (launchEffectLight.GetInstanceID(), launchEffectLight);
                     }
                 }
             }
-            print ("DBG: AfterLights");
+            //print ("DBG: AfterLights");
         }
 
 
@@ -295,7 +295,7 @@ namespace km_Lib
                 int key = pair.Key;
                 //print ("Found Effect: " + launchEffect.name+" state"+state);
                 launchEffect.emit = state;
-
+                double x, z;
                 if (state) {
 
                     launchEffect.shape2D = new Vector2 (width, width);
@@ -305,6 +305,8 @@ namespace km_Lib
                     if (height != 0)
                         launchEffect.minEnergy = height / 2;                       
                     launchEffect.transform.localPosition = locationList [key];
+
+
                     if (xOffset != 0 || yOffset != 0 || zOffset != 0)
                         launchEffect.transform.Translate (new Vector3 (xOffset, yOffset, zOffset), Space.Self);
 
@@ -343,6 +345,7 @@ namespace km_Lib
                 startTimer ();
             } else {
                 setEffect (false);
+                Events["toggle"].guiActive = false;
             }
         }
 
@@ -410,6 +413,7 @@ namespace km_Lib
             originalNumP = (int) numP;
             if(isActive) setEffect (true);
             startTimer ();
+            Events["toggle"].guiActive = false;
         }
 
         public override void OnTimer ()
